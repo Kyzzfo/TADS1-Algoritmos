@@ -1,0 +1,147 @@
+#Importa o módulo datetime para verificação de data
+from datetime import *
+#Importa o módulo para verificação de formatação dos textos
+import re
+
+#Matrizes de informações
+students = []
+teachers = []
+subjects = []
+classes = []
+
+#Função que verifica se a data de nascimento é válida
+def verify_date(prompt):
+    while True:
+        date_str = input(prompt).strip()
+        try:
+            #Tenta converter a string em uma data
+            date = datetime.strptime(date_str, "%m/%d/%Y")
+            return date
+        except ValueError:
+            print("Invalid date format. Please use MM/DD/YYYY.")
+
+#Função que verifica se o gênero é válido
+def verify_gender(prompt):
+    while True:
+        gen = input(prompt).strip().upper()
+        if gen == "M":
+            return "Male"
+        elif gen == "F":
+            return "Female"
+        else:
+            print("Invalid gender. Answer with M for Male or F for Female.")
+
+#Função que verifica a validade do email
+def verify_email(prompt):
+    while True:
+        email = input(prompt).strip()
+        # Regex para validar o e-mail
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if re.match(pattern, email):
+            return email
+        else:
+            print("Invalid email. Please enter a valid email.")
+
+#Função que recebe dados do aluno
+def data_stu():
+    print("|||Student registration|||")
+    name = input("Name: ").strip().upper()
+    reg_n = len(students)+1
+    birth = verify_date("Date of birth(MM/DD/YYYY): ")
+    gender = verify_gender("Gender(M or F): ")
+    address = input("Address: ").strip().lower()
+    phone = input("Phone number: ").strip().lower()
+    email = verify_email("Email address: ")
+    print(f"Registration number: {len(students)+1}")
+    return {
+        'Name': name,
+        'Register': reg_n,
+        'Birth Date': birth.strftime('%m/%d/%Y'),
+        'Gender': gender,
+        'Address': address,
+        'Phone': phone,
+        'Email': email
+    }
+
+#Função que registra alunos
+def reg_stu():
+    student=data_stu()
+    students.append(student)
+    print(f"Student {student['Name']} registered successfully!")
+
+#Função que registra professores
+def reg_tea():
+    teacher=data_tea()
+    teachers.append(teacher)
+    print(f"Teacher {teacher['Name']} registered successfully!")
+
+#Função que registra disciplinas
+def reg_sub():
+    subject=data_sub()
+    subjects.append(subject)
+    print(f"Subject {subject['Name']} registered successfully!")
+
+#Função que registra turmas
+def reg_cla():
+    classe=data_cla()
+    classes.append(classe)
+    print(f"Class {classe['Name']} registered successfully!")
+
+
+#Função que chama as funções das opções
+def options(opt):
+    try:
+        if opt == "exit":
+            return False
+        elif int(opt) == 1:
+            reg_stu()
+        elif int(opt) == 2:
+            print("opt2")
+        elif int(opt) == 3:
+            print("")
+        elif int(opt) == 4:
+            print("")
+        elif int(opt) == 5:
+            print("")
+        elif int(opt) == 6:
+            print("")
+        elif int(opt) == 7:
+            print("")
+        elif int(opt) == 8:
+            print("")
+        elif int(opt) == 9:
+            print("")
+        elif int(opt) == 10:
+            print("")
+        elif int(opt) == 11:
+            print("")
+        else:
+            print("Invalid option")    
+    except ValueError:
+            print("Invalid option")
+
+#Início do programa
+print("| Welcome user |\n")
+
+#Opções de cadastro e consulta
+print("1 - Register student")
+print("2 - Register teacher")
+print("3 - Register subject")
+print("4 - Register class")
+print("5 - Enroll student in class")
+print("6 - Filter teachers by subject")
+print("7 - Assign teacher to subject")
+print("8 - Assign subject to class")
+print("9 - Consult the list of students in a class")
+print("10 - Consult the list of teachers in a subject")
+print("11 - Consult the list of subjects in a class")
+
+#Loop para escolher uma das opções de função
+while True:
+    print("\n Select an option from the list or type 'exit' to finish the program")
+    option = input()
+    if options(option) is False:
+        break
+
+#Fim do programa
+print("\nProgram finished")
