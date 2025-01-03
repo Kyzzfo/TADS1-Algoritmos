@@ -19,7 +19,6 @@ def verify_date(prompt):
             return date
         except ValueError:
             print("Invalid date format. Please use MM/DD/YYYY.")
-
 #Função que verifica se o input é um número maior que zero
 def verify_number(prompt):
     while True:
@@ -33,7 +32,6 @@ def verify_number(prompt):
                 print("Invalid answer. Please type a valid time in hours.")
         except ValueError:
             print("Invalid answer. Please type a valid time in hours.")
-
 #Função que verifica se o gênero é válido
 def verify_gender(prompt):
     while True:
@@ -44,7 +42,6 @@ def verify_gender(prompt):
             return "Female"
         else:
             print("Invalid gender. Answer with M for Male or F for Female.")
-
 #Função que verifica a validade do nome
 def verify_name(prompt):
     while True:
@@ -55,7 +52,6 @@ def verify_name(prompt):
             return name
         else:
             print("Invalid name. Please use only letters, accents, and only one space between names.")
-
 #Função que verifica a validade do email
 def verify_email(prompt):
     while True:
@@ -66,7 +62,6 @@ def verify_email(prompt):
             return email
         else:
             print("Invalid email. Please enter a valid email.")
-
 #Função que verifica a validade de um número de telefone
 def verify_phone(prompt):
     while True:
@@ -98,7 +93,6 @@ def data_student():
         'Phone': phone,
         'Email': email
     }
-
 #Função que recebe dados do professor
 def data_teacher():
     print("|||Teacher registration|||")
@@ -120,7 +114,6 @@ def data_teacher():
         'Email': email,
         'Subjects':[]
     }
-
 #Função que recebe dados de uma disciplina
 def data_subject():
     print("|||Subject registration|||")
@@ -134,7 +127,6 @@ def data_subject():
         'Workload': workload,
         'Teachers':[]
     }
-
 #Função que recebe dados de uma turma
 def data_class():
     print("|||Class registration|||")
@@ -154,19 +146,16 @@ def reg_student():
     student=data_student()
     students.append(student)
     print(f"Student {student['Name']} registered successfully!")
-
 #Função que registra professores
 def reg_teacher():
     teacher=data_teacher()
     teachers.append(teacher)
     print(f"Teacher {teacher['Name']} registered successfully!")
-
 #Função que registra disciplinas
 def reg_subject():
     subject=data_subject()
     subjects.append(subject)
     print(f"Subject {subject['Name']} registered successfully!")
-
 #Função que registra turmas
 def reg_class():
     classe=data_class()
@@ -176,14 +165,35 @@ def reg_class():
 #Função para matricular estudantes em turmas
 def enroll_student():
     print(f"Student enrolled in class")
-
 #Função para atribuir um professor à uma disciplina
 def assign_teacher():
     print(f"Teacher assigned to subject")
-
 #Função para atribuir uma disciplina a uma turma
 def assign_subject():
     print(f"Subject assigned to class")
+
+#Função que mostra os alunos em uma turma
+def students_class():
+    print("Alunos por turma")
+#Função que mostra os professores em uma disciplina
+def teachers_subject():
+    print("Professores por disciplina")
+#Função que mostra as disciplinas em uma turma
+def subjects_class():
+    print("Disciplinas por turma")
+
+#Função que mostra todos os alunos
+def all_students():
+    print("Todos os alunos")
+#Função que mostra todos os professores
+def all_teachers():
+    print("Todos os professores")
+#Função que mostra todas as disciplinas
+def all_subjects():
+    print("Todas as disciplinas")
+#Função que mostra todas as turmas
+def all_classes():
+    print("Todas as turmas")
 
 #Função que chama as funções das opções
 def options(opt):
@@ -201,17 +211,23 @@ def options(opt):
         elif int(opt) == 5:
             enroll_student()
         elif int(opt) == 6:
-            assign_subject()
+            assign_teacher()
         elif int(opt) == 7:
-            print("")
+            assign_subject()
         elif int(opt) == 8:
-            print("")
+            students_class()
         elif int(opt) == 9:
-            print("")
+            teachers_subject()
         elif int(opt) == 10:
-            print("")
+            subjects_class()
         elif int(opt) == 11:
-            print("")
+            all_students()
+        elif int(opt) == 12:
+            all_teachers()
+        elif int(opt) == 13:
+            all_subjects()
+        elif int(opt) == 14:
+            all_classes()
         else:
             print("Invalid option")    
     except ValueError:
