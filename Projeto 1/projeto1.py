@@ -1,3 +1,20 @@
+'''
+- Crie um sistema escolar que permita cadastrar alunos, professores, diciplinas e turmas
+    - Alunos: nome, matrícula, data de nascimento, sexo, endereço, telefone, e-mail
+    - Professores: nome, matrícula, data de nascimento, sexo, endereço, telefone, e-mail, disciplina
+    - Disciplinas: nome, código, carga horária, professor
+    - Turmas: nome, código, disciplinas, professores, alunos
+
+- O sistema deve permitir a matrícula de alunos em turmas    
+- O sistema deve permitir a filtragem de professores por diciplina    
+
+- O sistema deve permitir a alocação de professores em diciplinas
+- O sistema deve permitir a alocação de diciplinas em turmas
+
+- O sistema deve permitir a consulta de alunos matriculados em turmas
+- O sistema deve permitir a consulta de professores alocados em diciplinas
+- O sistema deve permitir a consulta de disciplinas alocadas em turmas
+'''
 #Importa o módulo datetime para verificação de data
 from datetime import *
 #Importa o módulo para verificação de formatação dos textos
@@ -184,16 +201,94 @@ def subjects_class():
 
 #Função que mostra todos os alunos
 def all_students():
-    print("Todos os alunos")
+    if len(students) == 0:
+        print("\n||| No students registered yet |||")
+    else:
+        print("\n||| List of students |||")
+        print("-"*40)
+        for student in students:
+            print(f"Name: {student['Name']}")
+            print(f"Registration Number: {student['Register']}")
+            print(f"Date of Birth: {student['Birth Date']}")
+            print(f"Gender: {student['Gender']}")
+            print(f"Address: {student['Address']}")
+            print(f"Phone: {student['Phone']}")
+            print(f"Email: {student['Email']}")
+            print("-" * 40)
 #Função que mostra todos os professores
 def all_teachers():
-    print("Todos os professores")
+    if len(teachers) == 0:
+        print("\n||| No teachers registered yet |||")
+    else:
+        print("\n||| List of teachers |||")
+        for teacher in teachers:
+            print(f"Name: {teacher['Name']}")
+            print(f"Registration Number: {teacher['Register']}")
+            print(f"Date of Birth: {teacher['Birth Date']}")
+            print(f"Gender: {teacher['Gender']}")
+            print(f"Address: {teacher['Address']}")
+            print(f"Phone: {teacher['Phone']}")
+            print(f"Email: {teacher['Email']}")
+            if teacher['Subjects']:
+                print("Subjects:")
+                for subject in teacher['Subjects']:
+                    print(f"- {subject}")
+            else:
+                print("No subjects assigned for this teacher yet.")
+            print("-" * 40)
 #Função que mostra todas as disciplinas
 def all_subjects():
-    print("Todas as disciplinas")
+    if len(subjects) == 0:
+        print("\n||| No subjects registered yet |||")
+    else:
+        print("\n||| List of subjects |||")
+        for subject in subjects:
+            print(f"Name: {subject['Name']}")
+            print(f"Registration Number: {subject['Register']}")
+            print(f"Workload: {subject['Workload']} hours")
+            if subject['Teachers']:
+                print("Teachers:")
+                for teacher in subject['Teachers']:
+                    print(f"- {teacher}")
+            else:
+                print("No teachers assigned for this subject yet.")
+            print("-" * 40)
 #Função que mostra todas as turmas
 def all_classes():
-    print("Todas as turmas")
+    if len(classes) == 0:
+        print("\n||| No classes registered yet |||")
+    else:
+        print("\n||| List of classes |||")
+        for classe in classes:
+            print(f"Name: {classe['Name']}")
+            print(f"Registration Number: {classe['Register']}")
+            if classe['Subjects']:
+                print("Subjects:")
+                for subject in classe['Subjects']:
+                    print(f"- {subject}")
+            else:
+                print("No subjects assigned for this class yet.")
+                            
+            if classe['Teachers']:
+                print("Teachers:")
+                for teacher in classe['Teachers']:
+                    print(f"- {teacher}")
+            else:
+                print("No teachers assigned for this class yet.")
+
+            if classe['Teachers']:
+                print("Teachers:")
+                for teacher in classe['Teachers']:
+                    print(f"- {teacher}")
+            else:
+                print("No teachers assigned for this class yet.")
+            print("-" * 40)
+            
+#        'Name': name,
+ #       'Register': reg_n,
+  #      'Subjects': [],
+   #     'Teachers':[],
+    #    'Students': []
 
 #Função que chama as funções das opções
 def options(opt):
