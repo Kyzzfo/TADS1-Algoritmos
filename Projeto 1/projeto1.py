@@ -26,6 +26,23 @@ teachers = []
 subjects = []
 classes = []
 
+def show_options():
+    #Opções de cadastro e consulta
+    print("1 - Register student")
+    print("2 - Register teacher")
+    print("3 - Register subject")
+    print("4 - Register class")
+    print("5 - Enroll student in class")
+    print("6 - Assign teacher to subject")
+    print("7 - Assign subject to class")
+    print("8 - Consult the list of students in a class")
+    print("9 - Consult the list of teachers in a subject")
+    print("10 - Consult the list of subjects in a class")
+    print("11 - Consult the list of students in general")
+    print("12 - Consult the list of teachers in general")
+    print("13 - Consult the list of subjects in general")
+    print("14 - Consult the list of classes in general")
+
 #Função que verifica se a data de nascimento é válida
 def verify_date(prompt):
     while True:
@@ -181,7 +198,49 @@ def reg_class():
 
 #Função para matricular estudantes em turmas
 def enroll_student():
-    print(f"Student enrolled in class")
+    if len(students) == 0:
+        print("\n||| No students registered yet to enroll |||")
+    else:
+        print("\n||| List of students |||")
+        print("-"*40)
+        for student in students:
+            print(f"Name: {student['Name']}")
+            print(f"Registration Number: {student['Register']}")
+            print(f"Date of Birth: {student['Birth Date']}")
+            print(f"Gender: {student['Gender']}")
+            print(f"Address: {student['Address']}")
+            print(f"Phone: {student['Phone']}")
+            print(f"Email: {student['Email']}")
+            print("-" * 40)
+        if len(classes) == 0:
+            print("\n||| No classes registered yet to enroll any student |||")
+        else:
+            print("\n||| List of classes |||")
+        for classe in classes:
+            print(f"Name: {classe['Name']}")
+            print(f"Registration Number: {classe['Register']}")
+            if classe['Subjects']:
+                print("Subjects:")
+                for subject in classe['Subjects']:
+                    print(f"- {subject}")
+            else:
+                print("No subjects assigned for this class yet.")
+                            
+            if classe['Teachers']:
+                print("Teachers:")
+                for teacher in classe['Teachers']:
+                    print(f"- {teacher}")
+            else:
+                print("No teachers assigned for this class yet.")
+
+            if classe['Students']:
+                print("Students:")
+                for student in classe['Students']:
+                    print(f"- {student}")
+            else:
+                print("No students assigned for this class yet.")
+            print("-" * 40)
+        
 #Função para atribuir um professor à uma disciplina
 def assign_teacher():
     print(f"Teacher assigned to subject")
@@ -276,24 +335,20 @@ def all_classes():
             else:
                 print("No teachers assigned for this class yet.")
 
-            if classe['Teachers']:
-                print("Teachers:")
-                for teacher in classe['Teachers']:
-                    print(f"- {teacher}")
+            if classe['Students']:
+                print("Students:")
+                for student in classe['Students']:
+                    print(f"- {student}")
             else:
-                print("No teachers assigned for this class yet.")
+                print("No students assigned for this class yet.")
             print("-" * 40)
-            
-#        'Name': name,
- #       'Register': reg_n,
-  #      'Subjects': [],
-   #     'Teachers':[],
-    #    'Students': []
 
 #Função que chama as funções das opções
 def options(opt):
     try:
-        if opt == "exit":
+        if int(opt) == 0:
+            show_options()
+        elif opt == "exit":
             return False
         elif int(opt) == 1:
             reg_student()
@@ -331,26 +386,12 @@ def options(opt):
 #Início da execução do programa
 print("| Welcome user |\n")
 
-#Opções de cadastro e consulta
-print("1 - Register student")
-print("2 - Register teacher")
-print("3 - Register subject")
-print("4 - Register class")
-print("5 - Enroll student in class")
-print("6 - Assign teacher to subject")
-print("7 - Assign subject to class")
-print("8 - Consult the list of students in a class")
-print("9 - Consult the list of teachers in a subject")
-print("10 - Consult the list of subjects in a class")
-print("11 - Consult the list of students in general")
-print("12 - Consult the list of teachers in general")
-print("13 - Consult the list of subjects in general")
-print("14 - Consult the list of classes in general")
+show_options()
 
 #Loop para escolher uma das opções de função
 while True:
-    print("\n Select an option from the list or type 'exit' to finish the program")
-    option = input()
+    print("\n Select an option from the list or type 'exit' to finish the program\n(Type 0 to show the options again)")
+    option = input().strip()
     if options(option) is False:
         break
 
