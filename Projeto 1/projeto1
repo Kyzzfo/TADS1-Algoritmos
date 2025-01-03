@@ -63,6 +63,28 @@ def data_student():
         'Email': email
     }
 
+#Função que recebe dados do professor
+def data_teacher():
+    print("|||Teacher registration|||")
+    name = input("Name: ").strip().upper()
+    reg_n = len(teachers)+1
+    birth = verify_date("Date of birth(MM/DD/YYYY): ")
+    gender = verify_gender("Gender(M or F): ")
+    address = input("Address: ").strip().lower()
+    phone = input("Phone number: ").strip().lower()
+    email = verify_email("Email address: ")
+    print(f"Registration number: {len(teachers)+1}")
+    return {
+        'Name': name,
+        'Register': reg_n,
+        'Birth Date': birth.strftime('%m/%d/%Y'),
+        'Gender': gender,
+        'Address': address,
+        'Phone': phone,
+        'Email': email,
+        'Subject':None
+    }
+
 #Função que registra alunos
 def reg_student():
     student=data_student()
@@ -120,7 +142,7 @@ def options(opt):
     except ValueError:
             print("Invalid option")
 
-#Início do programa
+#Início da execução do programa
 print("| Welcome user |\n")
 
 #Opções de cadastro e consulta
