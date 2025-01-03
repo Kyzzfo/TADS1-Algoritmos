@@ -43,7 +43,7 @@ def verify_email(prompt):
             print("Invalid email. Please enter a valid email.")
 
 #Função que recebe dados do aluno
-def data_stu():
+def data_student():
     print("|||Student registration|||")
     name = input("Name: ").strip().upper()
     reg_n = len(students)+1
@@ -64,26 +64,26 @@ def data_stu():
     }
 
 #Função que registra alunos
-def reg_stu():
-    student=data_stu()
+def reg_student():
+    student=data_student()
     students.append(student)
     print(f"Student {student['Name']} registered successfully!")
 
 #Função que registra professores
-def reg_tea():
-    teacher=data_tea()
+def reg_teacher():
+    teacher=data_teacher()
     teachers.append(teacher)
     print(f"Teacher {teacher['Name']} registered successfully!")
 
 #Função que registra disciplinas
-def reg_sub():
-    subject=data_sub()
+def reg_subject():
+    subject=data_subject()
     subjects.append(subject)
     print(f"Subject {subject['Name']} registered successfully!")
 
 #Função que registra turmas
-def reg_cla():
-    classe=data_cla()
+def reg_class():
+    classe=data_class()
     classes.append(classe)
     print(f"Class {classe['Name']} registered successfully!")
 
@@ -94,7 +94,7 @@ def options(opt):
         if opt == "exit":
             return False
         elif int(opt) == 1:
-            reg_stu()
+            reg_student()
         elif int(opt) == 2:
             print("opt2")
         elif int(opt) == 3:
