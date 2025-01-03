@@ -20,6 +20,20 @@ def verify_date(prompt):
         except ValueError:
             print("Invalid date format. Please use MM/DD/YYYY.")
 
+#Função que verifica se o input é um número maior que zero
+def verify_number(prompt):
+    while True:
+        num = input(prompt).strip()
+        try:
+            #Tenta converter a string em um número
+            num_i=int(num)
+            if num_i>0:
+                return num_i
+            else: 
+                print("Invalid answer. Please type a valid time in hours.")
+        except ValueError:
+            print("Invalid answer. Please type a valid time in hours.")
+
 #Função que verifica se o gênero é válido
 def verify_gender(prompt):
     while True:
@@ -85,6 +99,20 @@ def data_teacher():
         'Subject':None
     }
 
+#Função que recebe dados de uma disciplina
+def data_subject():
+    print("|||Subject registration|||")
+    name = input("Subject name: ").strip().upper()
+    reg_n = len(subjects)+1
+    workload = verify_number("Workload(in hours): ")
+    print(f"Registration number: {len(subjects)+1}")
+    return {
+        'Name': name,
+        'Register': reg_n,
+        'Workload': workload,
+        'Teacher':None
+    }
+
 #Função que registra alunos
 def reg_student():
     student=data_student()
@@ -118,9 +146,9 @@ def options(opt):
         elif int(opt) == 1:
             reg_student()
         elif int(opt) == 2:
-            print("opt2")
+            reg_teacher()
         elif int(opt) == 3:
-            print("")
+            reg_subject()
         elif int(opt) == 4:
             print("")
         elif int(opt) == 5:
