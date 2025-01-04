@@ -355,13 +355,73 @@ def assign_subject():
 
 #Função que mostra os alunos em uma turma
 def students_class():
-    print("Alunos por turma")
+    if len(classes) == 0:
+        print("\n||| No classes registered to check |||")
+    else:
+        print("\n||| List of classes |||")
+        print("-"*40)
+        for classe in classes:
+            print(f"Name: {classe['Name']}")
+            print(f"Registration Number: {classe['Register']}")
+            print("-" * 40)
+        while True: 
+                cl_reg = verify_number("Insert the register of the class you want to check the students: ")
+                if verify_register(classes, 'Register', cl_reg) is True:
+                    break
+        cl_info = next(classe for classe in classes if classe['Register'] == cl_reg)
+
+        if cl_info['Students']:
+                print(f"Students in {cl_info['Name']}:")
+                for student in cl_info['Students']:
+                    print(f"{student['Register']} - {student['Name']}")
+        else:
+            print("No students enrolled in this class.")
 #Função que mostra os professores em uma disciplina
 def teachers_subject():
-    print("Professores por disciplina")
+    if len(subjects) == 0:
+        print("\n||| No subjects registered to check |||")
+    else:
+        print("\n||| List of subjects |||")
+        print("-"*40)
+        for subject in subjects:
+            print(f"Name: {subject['Name']}")
+            print(f"Registration Number: {subject['Register']}")
+            print("-" * 40)
+        while True: 
+                su_reg = verify_number("Insert the register of the subject you want to check the teachers: ")
+                if verify_register(subjects, 'Register', su_reg) is True:
+                    break
+        su_info = next(subject for subject in subjects if subject['Register'] == su_reg)
+
+        if su_info['Teachers']:
+                print(f"Teachers in {su_info['Name']}:")
+                for teacher in su_info['Teachers']:
+                    print(f"{teacher['Register']} - {teacher['Name']}")
+        else:
+            print("No teachers assigned to this subject.")
 #Função que mostra as disciplinas em uma turma
 def subjects_class():
-    print("Disciplinas por turma")
+    if len(classes) == 0:
+        print("\n||| No classes registered to check |||")
+    else:
+        print("\n||| List of classes |||")
+        print("-"*40)
+        for classe in classes:
+            print(f"Name: {classe['Name']}")
+            print(f"Registration Number: {classe['Register']}")
+            print("-" * 40)
+        while True: 
+                cl_reg = verify_number("Insert the register of the class you want to check the subjects: ")
+                if verify_register(classes, 'Register', cl_reg) is True:
+                    break
+        cl_info = next(classe for classe in classes if classe['Register'] == cl_reg)
+
+        if cl_info['Subjects']:
+                print(f"Subjects in {cl_info['Name']}:")
+                for subject in cl_info['Subjects']:
+                    print(f"{subject['Register']} - {subject['Name']}")
+        else:
+            print("No subjects assigned to this class.")
 
 #Função que mostra todos os alunos
 def all_students():
