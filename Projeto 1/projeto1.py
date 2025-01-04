@@ -28,7 +28,7 @@ classes = []
 
 def show_options():
     #Opções de cadastro e consulta
-    print("1 - Register student")
+    print("\n1 - Register student")
     print("2 - Register teacher")
     print("3 - Register subject")
     print("4 - Register class")
@@ -43,6 +43,13 @@ def show_options():
     print("13 - Consult the list of subjects in general")
     print("14 - Consult the list of classes in general")
 
+#Função que verifica se o registro existe ou não
+def verify_register(collection, key, value):
+    for item in collection:
+        if item[key] == int(value):
+            return True  # Já existe
+    print("Try again, type the number of a valid registration")
+    return False
 #Função que verifica se a data de nascimento é válida
 def verify_date(prompt):
     while True:
@@ -53,8 +60,8 @@ def verify_date(prompt):
             return date
         except ValueError:
             print("Invalid date format. Please use MM/DD/YYYY.")
-#Função que verifica se o input é um número maior que zero
-def verify_number(prompt):
+#Função que verifica se o input é um horario maior que zero
+def verify_time(prompt):
     while True:
         num = input(prompt).strip()
         try:
@@ -66,6 +73,19 @@ def verify_number(prompt):
                 print("Invalid answer. Please type a valid time in hours.")
         except ValueError:
             print("Invalid answer. Please type a valid time in hours.")
+#Função que verifica se o input é um horario maior que zero
+def verify_number(prompt):
+    while True:
+        num = input(prompt).strip()
+        try:
+            #Tenta converter a string em um número
+            num_i=int(num)
+            if num_i>0:
+                return num_i
+            else: 
+                print("Invalid answer. Please type a valid positive number.")
+        except ValueError:
+            print("Invalid answer. Please type a valid positive number.")
 #Função que verifica se o gênero é válido
 def verify_gender(prompt):
     while True:
@@ -86,6 +106,16 @@ def verify_name(prompt):
             return name
         else:
             print("Invalid name. Please use only letters, accents, and only one space between names.")
+#Função que verifica a validade do nome de uma disciplina
+def verify_subject_name(prompt):
+    while True:
+        name = input(prompt).strip().upper()
+        # Regex para permitir letras, espaços e caracteres com acento e um número se necessário ao final
+        pattern = r'^[A-Za-zÀ-ÿ]+(?: [A-Za-zÀ-ÿ]+)*(?: \d+)?$'
+        if re.match(pattern, name):
+            return name
+        else:
+            print("Invalid name. Please use only letters, accents, only one space between names and if you need, add a number just after the name")
 #Função que verifica a validade do email
 def verify_email(prompt):
     while True:
@@ -151,9 +181,9 @@ def data_teacher():
 #Função que recebe dados de uma disciplina
 def data_subject():
     print("|||Subject registration|||")
-    name = input("Subject name: ").strip().upper()
+    name = verify_subject_name("Subject name: ")
     reg_n = len(subjects)+1
-    workload = verify_number("Workload(in hours): ")
+    workload = verify_time("Workload(in hours): ")
     print(f"Registration number: {len(subjects)+1}")
     return {
         'Name': name,
@@ -164,7 +194,7 @@ def data_subject():
 #Função que recebe dados de uma turma
 def data_class():
     print("|||Class registration|||")
-    name = input("Class name: ").strip().upper()
+    name = verify_subject_name("Class name: ")
     reg_n = len(classes)+1
     print(f"Registration number: {len(classes)+1}")
     return {
@@ -206,47 +236,122 @@ def enroll_student():
         for student in students:
             print(f"Name: {student['Name']}")
             print(f"Registration Number: {student['Register']}")
-            print(f"Date of Birth: {student['Birth Date']}")
-            print(f"Gender: {student['Gender']}")
-            print(f"Address: {student['Address']}")
-            print(f"Phone: {student['Phone']}")
-            print(f"Email: {student['Email']}")
             print("-" * 40)
         if len(classes) == 0:
             print("\n||| No classes registered yet to enroll any student |||")
         else:
             print("\n||| List of classes |||")
+            print("-" * 40)
+            for classe in classes:
+                print(f"Name: {classe['Name']}")
+                print(f"Registration Number: {classe['Register']}")
+                if classe['Subjects']:
+                    print("Subjects:")
+                    for subject in classe['Subjects']:
+                        print(f"- {subject}")
+                else:
+                    print("No subjects assigned for this class yet.")
+                print("-" * 40)
+                
+            while True:
+                cl_reg = verify_number("Insert the register of the class you want to enroll a student: ")
+                if verify_register(classes, 'Register', cl_reg) is True:
+                    break
+            while True: 
+                st_reg = verify_number("Insert the register of the student you want to enroll in the class: ")
+                if verify_register(students, 'Register', st_reg) is True:
+                    break
+            
+            st_info = next(student for student in students if student['Register'] == st_reg)
+            cl_info = next(classe for classe in classes if classe['Register'] == cl_reg)
+            if st_info in cl_info['Students']:
+                print("-" * 40)
+                print(f"Student {st_info['Name']} is already enrolled in {cl_info['Name']}.")
+                print("-" * 40)
+            else:
+                print("-" * 40)
+                print(f"Student {st_info['Name']} enrolled in {cl_info['Name']}")
+                print("-" * 40)
+                cl_info['Students'].append(st_info)
+            
+#Função para atribuir um professor à uma disciplina
+def assign_teacher():
+    if len(teachers) == 0:
+        print("\n||| No teachers registered yet to assign |||")
+    else:
+        print("\n||| List of teachers |||")
+        print("-"*40)
+        for teacher in teachers:
+            print(f"Name: {teacher['Name']}")
+            print(f"Registration Number: {teacher['Register']}")
+            print("-" * 40)
+        if len(subjects) == 0:
+            print("\n||| No subjects registered yet to assign any teacher |||")
+        else:
+            print("\n||| List of subjects |||")
+            print("-" * 40)
+            for subject in subjects:
+                print(f"Name: {subject['Name']}")
+                print(f"Registration Number: {subject['Register']}")
+                
+            while True:
+                su_reg = verify_number("Insert the register of the subject you want to assign a teacher: ")
+                if verify_register(subjects, 'Register', su_reg) is True:
+                    break
+            while True: 
+                te_reg = verify_number("Insert the register of the teacher you want to assign in the subject: ")
+                if verify_register(teachers, 'Register', te_reg) is True:
+                    break         
+            te_info = next(teacher for teacher in teachers if teacher['Register'] == te_reg)
+            su_info = next(subject for subject in subjects if subject['Register'] == su_reg)
+            if te_info in su_info['Teachers']:
+                print("-" * 40)
+                print(f"Teacher {te_info['Name']} is already assigned in {su_info['Name']}.")
+                print("-" * 40)
+            else:
+                print("-" * 40)
+                print(f"Teacher {te_info['Name']} assigned in {su_info['Name']}")
+                print("-" * 40)
+                su_info['Teachers'].append(te_info)
+#Função para atribuir uma disciplina a uma turma
+def assign_subject():        
+    if len(classes) == 0:
+        print("\n||| No classes registered yet to assign any subject|||")
+    else:
+        print("\n||| List of classes |||")
+        print("-"*40)
         for classe in classes:
             print(f"Name: {classe['Name']}")
             print(f"Registration Number: {classe['Register']}")
-            if classe['Subjects']:
-                print("Subjects:")
-                for subject in classe['Subjects']:
-                    print(f"- {subject}")
-            else:
-                print("No subjects assigned for this class yet.")
-                            
-            if classe['Teachers']:
-                print("Teachers:")
-                for teacher in classe['Teachers']:
-                    print(f"- {teacher}")
-            else:
-                print("No teachers assigned for this class yet.")
-
-            if classe['Students']:
-                print("Students:")
-                for student in classe['Students']:
-                    print(f"- {student}")
-            else:
-                print("No students assigned for this class yet.")
             print("-" * 40)
-        
-#Função para atribuir um professor à uma disciplina
-def assign_teacher():
-    print(f"Teacher assigned to subject")
-#Função para atribuir uma disciplina a uma turma
-def assign_subject():
-    print(f"Subject assigned to class")
+        if len(subjects) == 0:
+            print("\n||| No subjects registered yet to assign to any class |||")
+        else:
+            print("\n||| List of subjects |||")
+            print("-" * 40)
+            for subject in subjects:
+                print(f"Name: {subject['Name']}")
+                print(f"Registration Number: {subject['Register']}")
+                
+            while True:
+                su_reg = verify_number("Insert the register of the subject you want to assign a class: ")
+                if verify_register(subjects, 'Register', su_reg) is True:
+                    break
+            while True: 
+                cl_reg = verify_number("Insert the register of the class you want to assign in the subject: ")
+                if verify_register(classes, 'Register', cl_reg) is True:
+                    break
+            cl_info = next(classe for classe in classes if classe['Register'] == cl_reg)
+            su_info = next(subject for subject in subjects if subject['Register'] == su_reg)
+            if su_info in cl_info['Subjects']:
+                print("-" * 40)
+                print(f"{su_info['Name']} is already assigned to {cl_info['Name']}.")
+                print("-" * 40)
+            else:
+                print("-" * 40)
+                print(f"{su_info['Name']} assigned in {cl_info['Name']}")
+                print("-" * 40)
+                cl_info['Subjects'].append(su_info)
 
 #Função que mostra os alunos em uma turma
 def students_class():
@@ -280,6 +385,7 @@ def all_teachers():
         print("\n||| No teachers registered yet |||")
     else:
         print("\n||| List of teachers |||")
+        print("-" * 40)
         for teacher in teachers:
             print(f"Name: {teacher['Name']}")
             print(f"Registration Number: {teacher['Register']}")
@@ -301,6 +407,7 @@ def all_subjects():
         print("\n||| No subjects registered yet |||")
     else:
         print("\n||| List of subjects |||")
+        print("-" * 40)
         for subject in subjects:
             print(f"Name: {subject['Name']}")
             print(f"Registration Number: {subject['Register']}")
@@ -318,6 +425,7 @@ def all_classes():
         print("\n||| No classes registered yet |||")
     else:
         print("\n||| List of classes |||")
+        print("-" * 40)
         for classe in classes:
             print(f"Name: {classe['Name']}")
             print(f"Registration Number: {classe['Register']}")
@@ -338,50 +446,10 @@ def all_classes():
             if classe['Students']:
                 print("Students:")
                 for student in classe['Students']:
-                    print(f"- {student}")
+                    print(f"{student['Register']} - {student['Name']}")
             else:
                 print("No students assigned for this class yet.")
             print("-" * 40)
-
-#Função que chama as funções das opções
-def options(opt):
-    try:
-        if int(opt) == 0:
-            show_options()
-        elif opt == "exit":
-            return False
-        elif int(opt) == 1:
-            reg_student()
-        elif int(opt) == 2:
-            reg_teacher()
-        elif int(opt) == 3:
-            reg_subject()
-        elif int(opt) == 4:
-            reg_class()
-        elif int(opt) == 5:
-            enroll_student()
-        elif int(opt) == 6:
-            assign_teacher()
-        elif int(opt) == 7:
-            assign_subject()
-        elif int(opt) == 8:
-            students_class()
-        elif int(opt) == 9:
-            teachers_subject()
-        elif int(opt) == 10:
-            subjects_class()
-        elif int(opt) == 11:
-            all_students()
-        elif int(opt) == 12:
-            all_teachers()
-        elif int(opt) == 13:
-            all_subjects()
-        elif int(opt) == 14:
-            all_classes()
-        else:
-            print("Invalid option")    
-    except ValueError:
-            print("Invalid option")
 
 #Início da execução do programa
 print("| Welcome user |\n")
@@ -392,8 +460,43 @@ show_options()
 while True:
     print("\n Select an option from the list or type 'exit' to finish the program\n(Type 0 to show the options again)")
     option = input().strip()
-    if options(option) is False:
-        break
+    try:
+        if int(option) == 0:
+            show_options()
+        elif option == "exit":
+            break
+        elif int(option) == 1:
+            reg_student()
+        elif int(option) == 2:
+            reg_teacher()
+        elif int(option) == 3:
+            reg_subject()
+        elif int(option) == 4:
+            reg_class()
+        elif int(option) == 5:
+            enroll_student()
+        elif int(option) == 6:
+            assign_teacher()
+        elif int(option) == 7:
+            assign_subject()
+        elif int(option) == 8:
+            students_class()
+        elif int(option) == 9:
+            teachers_subject()
+        elif int(option) == 10:
+            subjects_class()
+        elif int(option) == 11:
+            all_students()
+        elif int(option) == 12:
+            all_teachers()
+        elif int(option) == 13:
+            all_subjects()
+        elif int(option) == 14:
+            all_classes()
+        else:
+            print("Invalid option")    
+    except ValueError:
+            print("Invalid option")
 
 #Fim do programa
 print("\nProgram finished")
