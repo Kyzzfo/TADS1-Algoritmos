@@ -47,7 +47,7 @@ def show_options():
 def verify_register(collection, key, value):
     for item in collection:
         if item[key] == int(value):
-            return True  # Já existe
+            return True  #Já existe
     print("Try again, type the number of a valid registration")
     return False
 #Função que verifica se a data de nascimento é válida
@@ -100,7 +100,7 @@ def verify_gender(prompt):
 def verify_name(prompt):
     while True:
         name = input(prompt).strip().upper()
-        # Regex para permitir letras, espaços e caracteres com acento
+        #Regex para permitir letras, espaços e caracteres com acento
         pattern = r'^[A-Za-zÀ-ÿ]+(?: [A-Za-zÀ-ÿ]+)*$'
         if re.match(pattern, name):
             return name
@@ -110,7 +110,7 @@ def verify_name(prompt):
 def verify_subject_name(prompt):
     while True:
         name = input(prompt).strip().upper()
-        # Regex para permitir letras, espaços e caracteres com acento e um número se necessário ao final
+        #Regex para permitir letras, espaços e caracteres com acento e um número se necessário ao final
         pattern = r'^[A-Za-zÀ-ÿ]+(?: [A-Za-zÀ-ÿ]+)*(?: \d+)?$'
         if re.match(pattern, name):
             return name
@@ -120,7 +120,7 @@ def verify_subject_name(prompt):
 def verify_email(prompt):
     while True:
         email = input(prompt).strip()
-        # Regex para validar o e-mail
+        #Regex para validar o e-mail
         pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         if re.match(pattern, email):
             return email
@@ -130,7 +130,7 @@ def verify_email(prompt):
 def verify_phone(prompt):
     while True:
         phone = input(prompt).strip()
-        # Regex para validar o telefone
+        #Regex para validar o telefone
         pattern = r'^\d{10,15}$'
         if re.match(pattern, phone):
             return phone
