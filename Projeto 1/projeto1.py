@@ -1,20 +1,3 @@
-'''
-- Crie um sistema escolar que permita cadastrar alunos, professores, diciplinas e turmas
-    - Alunos: nome, matrícula, data de nascimento, sexo, endereço, telefone, e-mail
-    - Professores: nome, matrícula, data de nascimento, sexo, endereço, telefone, e-mail, disciplina
-    - Disciplinas: nome, código, carga horária, professor
-    - Turmas: nome, código, disciplinas, professores, alunos
-
-- O sistema deve permitir a matrícula de alunos em turmas    
-- O sistema deve permitir a filtragem de professores por diciplina    
-
-- O sistema deve permitir a alocação de professores em diciplinas
-- O sistema deve permitir a alocação de diciplinas em turmas
-
-- O sistema deve permitir a consulta de alunos matriculados em turmas
-- O sistema deve permitir a consulta de professores alocados em diciplinas
-- O sistema deve permitir a consulta de disciplinas alocadas em turmas
-'''
 #Importa o módulo datetime para verificação de data
 from datetime import *
 #Importa o módulo para verificação de formatação dos textos
@@ -312,7 +295,8 @@ def assign_teacher():
                 print("-" * 40)
                 print(f"Teacher {te_info['Name']} assigned in {su_info['Name']}")
                 print("-" * 40)
-                su_info['Teachers'].append(te_info)
+                su_info['Teachers'].append({'Register':te_info['Register'],'Name':te_info['Name']})
+                te_info['Subjects'].append({'Register':su_info['Register'],'Name':su_info['Name']})
 #Função para atribuir uma disciplina a uma turma
 def assign_subject():        
     if len(classes) == 0:
@@ -351,7 +335,8 @@ def assign_subject():
                 print("-" * 40)
                 print(f"{su_info['Name']} assigned in {cl_info['Name']}")
                 print("-" * 40)
-                cl_info['Subjects'].append(su_info)
+                cl_info['Subjects'].append({'Register':su_info['Register'],'Name':su_info['Name']})
+                cl_info['Teachers'].append({su_info['Teachers']})
 
 #Função que mostra os alunos em uma turma
 def students_class():
