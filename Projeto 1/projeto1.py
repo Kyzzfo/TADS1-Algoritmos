@@ -102,9 +102,9 @@ def verify_subject_name(prompt):
 #Função que verifica a validade do email
 def verify_email(prompt):
     while True:
-        email = input(prompt).strip()
+        email = input(prompt).strip().lower()
         #Regex para validar o e-mail
-        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        pattern = r'^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-zA-Z]{2,}$'
         if re.match(pattern, email):
             return email
         else:
