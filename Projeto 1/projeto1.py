@@ -336,7 +336,7 @@ def assign_subject():
                 print(f"{su_info['Name']} assigned in {cl_info['Name']}")
                 print("-" * 40)
                 cl_info['Subjects'].append({'Register':su_info['Register'],'Name':su_info['Name']})
-                cl_info['Teachers'].append({su_info['Teachers']})
+                cl_info['Teachers'].append(su_info['Teachers'])
 
 #Função que mostra os alunos em uma turma
 def students_class():
